@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senha Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        h2 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .warning {
+            color: red;
+            display: none;
+            margin-bottom: 10px;
+        }
+        #copyButton {
+            display: none;
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #copyButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Senha Checker</h2>
+        <input type="text" id="passwordInput" placeholder="Digite a senha">
+        <div id="warning" class="warning">A senha está incorreta. Verifique os requisitos.</div>
+        <button id="copyButton" onclick="copyToClipboard()">Copiar</button>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const warning = document.getElementById('warning');
+        const copyButton = document.getElementById('copyButton');
+
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const hasBrazilFlag = password.includes('🇧🇷');
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasThreeNumbers = (password.match(/\d/g) || []).length >= 3;
+            const isLengthValid = password.length <= 24;
+
+            if (hasBrazilFlag && hasUppercase && hasLowercase && hasThreeNumbers && isLengthValid) {
+                warning.style.display = 'none';
+                copyButton.style.display = 'block';
+            } else {
+                warning.style.display = 'block';
+                copyButton.style.display = 'none';
+            }
+        });
+
+        function copyToClipboard() {
+            passwordInput.select();
+            document.execCommand('copy');
+        }
+    </script>
+</body>
+</html>
